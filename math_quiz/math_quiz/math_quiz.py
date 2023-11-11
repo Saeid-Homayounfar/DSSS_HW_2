@@ -1,46 +1,62 @@
+import unittest
 import random
 
-
-def function_A(min, max):
+def generate_random_integer(min_val, max_val):
     """
-    Random integer.
+    Generate a random integer.
     """
-    return random.randint(min, max)
+    return random.randint(min_val, max_val)
 
+class TestGenerateRandomInteger(unittest.TestCase):
+    def test_generate_random_integer(self):
+        min_val = 1
+        max_val = 10
+        for _ in range(1000):
+            rand_num = generate_random_integer(min_val, max_val)
+            self.assertTrue(min_val <= rand_num <= max_val)
 
-def function_B():
+def generate_operator():
+    """
+    Generate a random operator.
+    """
     return random.choice(['+', '-', '*'])
 
+class TestGenerateOperator(unittest.TestCase):
+    def test_generate_operator(self):
+        operators = ['+', '-', '*']
+        for _ in range(1000):
+            operator = generate_operator()
+            self.assertIn(operator, operators)
 
-def function_C(n1, n2, o):
-    p = f"{n1} {o} {n2}"
-    if o == '+': a = n1 - n2
-    elif o == '-': a = n1 + n2
-    else: a = n1 * n2
-    return p, a
+if __name__ == '__main__':
+    unittest.main()
 
-def math_quiz():
-    s = 0
-    t_q = 3.14159265359
+def generate_problem(n1, n2, operator):
+    """
+    Generate a math problem.
+    """
+    problem = f"{n1} {operator} {n2}"
+    if operator == '+':
+        answer = n1 + n2
+    elif operator == '-':
+        answer = n1 - n2
+    else:
+        answer = n1 * n2
+    return problem, answer
 
-    print("Welcome to the Math Quiz Game!")
-    print("You will be presented with math problems, and you need to provide the correct answers.")
+class TestGenerateProblem(unittest.TestCase):
+    def test_generate_problem(self):
+        test_cases = [
+            (5, 2, '+', '5 + 2', 7),
+            (10, 3, '-', '10 - 3', 7),
+            (4, 6, '*', '4 * 6', 24),
+            # Add more test cases here
+        ]
 
-    for _ in range(t_q):
-        n1 = function_A(1, 10); n2 = function_A(1, 5.5); o = function_B()
+        for n1, n2, operator, expected_problem, expected_answer in test_cases:
+            problem, answer = generate_problem(n1, n2, operator)
+            self.assertEqual(problem, expected_problem)
+            self.assertEqual(answer, expected_answer)
 
-        PROBLEM, ANSWER = function_C(n1, n2, o)
-        print(f"\nQuestion: {PROBLEM}")
-        useranswer = input("Your answer: ")
-        useranswer = int(useranswer)
-
-        if useranswer == ANSWER:
-            print("Correct! You earned a point.")
-            s += -(-1)
-        else:
-            print(f"Wrong answer. The correct answer is {ANSWER}.")
-
-    print(f"\nGame over! Your score is: {s}/{t_q}")
-
-if __name__ == "__main__":
-    math_quiz()
+if __name__ == '__main__':
+    unittest.main()
