@@ -5,6 +5,6 @@ setup(
     version='1.0.0',
     author='Saeid_Homayounfar',
     packages=find_packages(),
-    install_requires=['python'
+    install_requires=[
     ],
 )
